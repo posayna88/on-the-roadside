@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AL-MUAAN TRADING ON THE ROAD</title>
+
+<style>
+
+body{font-family:Tahoma;margin:0;background:#0f172a;color:#fff}
+
+/* HEADER */
+header{background:#1e3a8a;text-align:center;padding:15px;position:relative}
+.lang-btn{position:absolute;left:10px;top:10px;background:#10b981;padding:5px;border-radius:8px;cursor:pointer}
+
+/* HERO */
+.hero{
+height:40vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(-45deg,#1e3a8a,#2563eb,#10b981,#1e3a8a);
+background-size:400% 400%;
+animation:move 8s infinite;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+@keyframes move{0%{background-position:0}50%{background-position:100%}100%{background-position:0}}
+
+.hero-btn{background:#10b981;border:none;padding:12px;border-radius:10px;color:#fff}
+
+/* CONTAINER */
+.container{max-width:400px;margin:auto;padding:15px}
+
+/* SERVICES */
+.services{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.srv{background:#fff;color:#000;padding:10px;border-radius:10px;text-align:center;cursor:pointer}
+
+/* FORM */
+input,textarea,select{
+width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none
+}
+
+button{
+background:#1e3a8a;color:white;border:none;padding:10px;border-radius:8px;width:100%
+}
+
+.call{background:#ef4444;margin-top:10px;padding:10px;text-align:center;border-radius:8px;color:white;text-decoration:none}
+.whatsapp{background:#25D366;margin-top:10px;padding:10px;text-align:center;border-radius:8px;color:white;text-decoration:none}
+
+/* FILE */
+input[type="file"]{
+background:#fff;color:#000;padding:5px;border-radius:8px;margin-bottom:5px
+}
+
+label{font-size:12px}
+
+/* SOCIAL */
+.socials{display:flex;gap:5px;margin-top:10px}
+.socials a{flex:1;padding:10px;text-align:center;border-radius:8px;color:#fff;text-decoration:none}
+.fb{background:#3b5998}
+.ig{background:#E1306C}
+
+/* COMMENTS */
+#comments div{background:#fff;color:#000;padding:5px;margin:5px 0;border-radius:6px}
+
+/* ALBUM */
+.album{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.img-box{position:relative}
+.img-box img{width:100%;border-radius:8px}
+.img-box span{position:absolute;top:5px;left:5px;background:red;color:#fff;padding:3px;border-radius:50%;cursor:pointer}
+
+/* CHAT */
+.chat-toggle{
+position:fixed;
+bottom:15px;
+right:15px;
+background:#10b981;
+padding:15px;
+border-radius:50%;
+cursor:pointer;
+font-size:20px;
+}
+
+.chat-box{
+position:fixed;
+bottom:70px;
+right:15px;
+width:280px;
+background:white;
+color:#000;
+border-radius:15px;
+display:none;
+flex-direction:column;
+padding:10px;
+}
+
+.chat-messages{
+height:150px;
+overflow:auto;
+background:#f1f1f1;
+padding:5px;
+border-radius:8px;
+margin-bottom:5px;
+font-size:12px;
+}
+
+.chat-messages div{
+background:#10b981;
+color:#fff;
+padding:5px;
+margin:3px 0;
+border-radius:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="lang-btn" onclick="toggleLang()">🌍</div>
+<h2>🚗 AL-MUAAN TRADING ON THE ROAD🚚</h2>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<div>
+<h1 id="heroTitle"></h1>
+<p id="heroSub"></p>
+<button class="hero-btn" onclick="scrollToForm()" id="heroBtn"></button>
+</div>
+</section>
+
+<div class="container">
+
+<h3 id="servicesTitle"></h3>
+
+<div class="services">
+<div class="srv">🚗 سحب السيارات</div>
+<div class="srv">🔋 بطارية</div>
+<div class="srv">🛞 إطارات</div>
+<div class="srv">⛽ وقود</div>
+<div class="srv">🔑 فتح السيارة</div>
+<div class="srv">🆘 إنقاذ</div>
+<div class="srv">🚚 نقل سيارات</div>
+<div class="srv">⚡ شحن كهرباء</div>
+</div>
+
+<!-- FORM -->
+<form onsubmit="sendWhatsApp(); return false;">
+
+<input id="phone" placeholder="📱 رقم الهاتف" required>
+
+<select id="service">
+<option value="">اختر الخدمة</option>
+<option>🚗 سحب السيارات</option>
+<option>🔋 بطارية</option>
+<option>🛞 إطارات</option>
+<option>⛽ وقود</option>
+<option>🔑 فتح السيارة</option>
+<option>🆘 إنقاذ</option>
+<option>🚚 نقل سيارات</option>
+<option>⚡ شحن كهرباء</option>
+</select>
+
+<textarea id="problem" placeholder="🛠️ اكتب المشكلة" required></textarea>
+
+<!-- 📸 4 صور -->
+<h4>📸 صور السيارة</h4>
+
+<label>🚗 أمام</label>
+<input type="file" id="frontImg" accept="image/*">
+
+<label>🚙 خلف</label>
+<input type="file" id="backImg" accept="image/*">
+
+<label>➡️ يمين</label>
+<input type="file" id="rightImg" accept="image/*">
+
+<label>⬅️ يسار</label>
+<input type="file" id="leftImg" accept="image/*">
+
+<div id="locationText"></div>
+
+<button>🚀 إرسال الطلب</button>
+
+</form>
+
+<a class="call" href="tel:+201021259316">📞 اتصال مباشر</a>
+<a class="whatsapp" onclick="sendWhatsApp()">📱 WhatsApp</a>
+
+<!-- SOCIAL -->
+<div class="socials">
+<a class="fb" href="#" target="_blank">Facebook</a>
+<a class="ig" href="#" target="_blank">Instagram</a>
+</div>
+
+<!-- COMMENTS -->
+<h3>💬 تعليقات العملاء</h3>
+<textarea id="comment"></textarea>
+<button onclick="addComment()">إرسال</button>
+<div id="comments"></div>
+
+<!-- ALBUM -->
+<h3 onclick="toggleAlbum()">📸 الألبوم</h3>
+<div id="albumBox" style="display:none;">
+<input type="file" accept="image/*" onchange="addImage(event)">
+<div class="album" id="album"></div>
+</div>
+
+</div>
+
+<!-- CHAT -->
+<div class="chat-toggle" onclick="toggleChat()">💬</div>
+
+<div class="chat-box" id="chatBox">
+<div class="chat-messages" id="chatMessages"></div>
+<input id="chatInput">
+<button onclick="sendMsg()">📩</button>
+<button onclick="recordAudio()">🎤</button>
+<input type="file" onchange="sendFile(event)">
+</div>
+
+<script>
+
+/* HERO */
+const heroData=["🚗 خدمات الطريق","⚡ دعم سريع","🆘 إنقاذ"];
+let hi=0;
+setInterval(()=>{
+heroTitle.innerText=heroData[hi];
+heroSub.innerText="";
+hi=(hi+1)%heroData.length;
+},3000);
+
+/* LOCATION */
+navigator.geolocation.getCurrentPosition(
+p=>locationText.innerText="📍 "+p.coords.latitude+" , "+p.coords.longitude,
+()=>locationText.innerText="❌ لا يمكن تحديد الموقع"
+);
+
+/* WHATSAPP */
+async function sendWhatsApp(){
+
+let formData = new FormData();
+
+formData.append("phone", phone.value);
+formData.append("service", service.value);
+formData.append("problem", problem.value);
+formData.append("location", locationText.innerText);
+
+if(frontImg.files[0]) formData.append("frontImg", frontImg.files[0]);
+if(backImg.files[0]) formData.append("backImg", backImg.files[0]);
+if(rightImg.files[0]) formData.append("rightImg", rightImg.files[0]);
+if(leftImg.files[0]) formData.append("leftImg", leftImg.files[0]);
+
+try{
+await fetch("/api/order", {
+    method: "POST",
+    body: formData
+});
+
+alert("✅ تم إرسال الطلب");
+
+}catch{
+alert("❌ خطأ في الإرسال");
+}
+
+// واتساب
+let msg=`🚨 طلب جديد
+📱 ${phone.value}
+🚗 ${service.value}
+🛠️ ${problem.value}
+${locationText.innerText}`;
+
+window.open("https://wa.me/201021259316?text="+encodeURIComponent(msg));
+}
+/* SERVICES */
+document.querySelectorAll(".srv").forEach(e=>{
+e.onclick=()=>service.value=e.innerText;
+});
+
+/* COMMENTS */
+let commentsData=JSON.parse(localStorage.getItem("comments"))||[];
+function loadComments(){
+comments.innerHTML="";
+commentsData.forEach(c=>{
+let d=document.createElement("div");
+d.innerText="👤 "+c;
+comments.appendChild(d);
+});
+}
+function addComment(){
+if(!comment.value) return;
+commentsData.push(comment.value);
+localStorage.setItem("comments",JSON.stringify(commentsData));
+comment.value="";
+loadComments();
+}
+loadComments();
+
+/* ALBUM */
+let images=JSON.parse(localStorage.getItem("album"))||[];
+function toggleAlbum(){
+albumBox.style.display=albumBox.style.display=="none"?"block":"none";
+}
+function loadImages(){
+album.innerHTML="";
+images.forEach((src,i)=>{
+let div=document.createElement("div");
+div.className="img-box";
+div.innerHTML=`<img src="${src}"><span onclick="deleteImg(${i})">❌</span>`;
+album.appendChild(div);
+});
+}
+function addImage(e){
+let r=new FileReader();
+r.onload=function(){
+images.push(r.result);
+localStorage.setItem("album",JSON.stringify(images));
+loadImages();
+};
+r.readAsDataURL(e.target.files[0]);
+}
+function deleteImg(i){
+images.splice(i,1);
+localStorage.setItem("album",JSON.stringify(images));
+loadImages();
+}
+loadImages();
+
+/* CHAT */
+function toggleChat(){
+chatBox.style.display = chatBox.style.display=="flex"?"none":"flex";
+}
+function sendMsg(){
+if(!chatInput.value) return;
+chatMessages.innerHTML+=`<div>👤 ${chatInput.value}</div>`;
+chatInput.value="";
+}
+async function recordAudio(){
+let stream=await navigator.mediaDevices.getUserMedia({audio:true});
+let rec=new MediaRecorder(stream);
+let chunks=[];
+rec.ondataavailable=e=>chunks.push(e.data);
+rec.onstop=()=>{
+let blob=new Blob(chunks);
+let url=URL.createObjectURL(blob);
+chatMessages.innerHTML+=`<audio controls src="${url}"></audio>`;
+};
+rec.start();
+setTimeout(()=>rec.stop(),3000);
+}
+function sendFile(e){
+let file=e.target.files[0];
+let url=URL.createObjectURL(file);
+chatMessages.innerHTML+=`<a href="${url}" target="_blank">📎 ${file.name}</a>`;
+}
+
+</script>
+
+</body>
+</html>

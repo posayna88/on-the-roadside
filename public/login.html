@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تسجيل الدخول</title>
+
+<style>
+body{font-family:tahoma;background:#0f172a;color:#fff;text-align:center;padding:50px}
+input{display:block;margin:10px auto;padding:10px;width:250px}
+button{padding:10px 20px;border:none;background:#10b981;color:#fff;border-radius:6px}
+</style>
+</head>
+
+<body>
+
+<h2>🔐 تسجيل دخول</h2>
+
+<input id="user" placeholder="اسم المستخدم">
+<input id="pass" type="password" placeholder="كلمة المرور">
+
+<button onclick="login()">دخول</button>
+
+<script>
+async function login(){
+let res = await fetch("/api/login", {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({
+username: user.value,
+password: pass.value
+})
+});
+
+let data = await res.json();
+
+if(data.success){
+localStorage.setItem("admin","true");
+location.href="admin.html";
+}else{
+alert("❌ بيانات غلط");
+}
+}
+</script>
+
+</body>
+</html>

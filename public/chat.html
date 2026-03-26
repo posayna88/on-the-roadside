@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>الشات</title>
+<style>
+body{background:#0f172a;color:#fff;font-family:tahoma}
+#chat{height:300px;overflow:auto}
+</style>
+</head>
+
+<body>
+
+<div id="chat"></div>
+
+<input id="msg">
+<button onclick="send()">إرسال</button>
+
+<script>
+async function load(){
+let res = await fetch("/api/chat");
+let data = await res.json();
+
+chat.innerHTML = data.map(m=>`<p>${m.text}</p>`).join("");
+}
+
+async function send(){
+await fetch("/api/chat", {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({ text: msg.value })
+});
+msg.value="";
+load();
+}
+
+setInterval(load, 2000);
+</script>
+
+</body>
+</html>

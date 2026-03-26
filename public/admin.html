@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>لوحة التحكم</title>
+
+<style>
+body{font-family:tahoma;background:#0f172a;color:#fff;padding:20px}
+.order{background:#1e293b;padding:10px;margin:10px 0;border-radius:10px}
+img{margin:3px;border-radius:6px}
+button{margin:3px;padding:5px;border:none;border-radius:6px;cursor:pointer}
+input{padding:5px;margin:5px}
+</style>
+</head>
+
+<body>
+
+<h2>📊 الطلبات</h2>
+<a href="chat.html">💬 الشات</a>
+<div id="orders"></div>
+
+<script>
+
+if(localStorage.getItem("admin") !== "true"){
+location.href="login.html";
+}
+
+let lastCount = 0;
+
+async function loadOrders(){
+let res = await fetch("/api/orders");
+let data = await res.json();
+
+if(data.length > lastCount){
+    new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play();
+}
+lastCount = data.length;
+
+orders.innerHTML="";
+
+data.reverse().forEach(o=>{
+orders.innerHTML+=`
+<div class="order">
+
+📱 ${o.phone}<br>
+🚗 ${o.service}<br>
+🛠️ ${o.problem}<br>
+
+📍 <a target="_blank" href="https://maps.google.com/?q=${o.location}">فتح الموقع</a><br>
+
+📸 الصور:<br>
+${o.images?.front ? `<img src="/uploads/${o.images.front}" width="70">` : ""}
+${o.images?.back ? `<img src="/uploads/${o.images.back}" width="70">` : ""}
+
+<br><br>
+
+📊 الحالة: <b>${o.status}</b><br>
+
+<button onclick="updateStatus(${o.id}, 'جاري')">🚚 جاري</button>
+<button onclick="updateStatus(${o.id}, 'تم')">✅ تم</button>
+
+<br><br>
+
+👨‍✈️ السائق: ${o.driver || "غير محدد"}<br>
+<input placeholder="اسم السائق" id="d${o.id}">
+<button onclick="assignDriver(${o.id})">تعيين</button>
+
+<br>⏱️ ${new Date(o.date).toLocaleString()}
+
+</div>
+`;
+});
+}
+
+async function updateStatus(id, status){
+await fetch("/api/update-status", {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({ id, status })
+});
+loadOrders();
+}
+
+async function assignDriver(id){
+let driver = document.getElementById("d"+id).value;
+
+await fetch("/api/assign-driver", {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({ id, driver })
+});
+loadOrders();
+}
+
+loadOrders();
+setInterval(loadOrders, 5000);
+
+</script>
+
+</body>
+</html>
